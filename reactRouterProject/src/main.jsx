@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         element: <GitHub />,
       },
       {
-        path: "user/id",
+        path: "user/:userId",
         element: <User />,
       },
     ],
