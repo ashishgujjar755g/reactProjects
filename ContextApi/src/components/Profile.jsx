@@ -4,7 +4,7 @@ import UserContextProvider from '../context/UserContexProvider'
 
 function Profile() {
       const {user} = useContext(UserContext)
-      if(!user) return <div>please ogin</div>
+      if(!user) return <div>please login</div>
       return <div>Welcome  {user.username}</div>
 }
 
