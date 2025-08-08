@@ -122,3 +122,4 @@ export class Service {
 }
 
 const service = new Service(); //this object or instace is crated for Service class and we will use the class methods using dot operator
+export default service; //exporting the object so that we can use it in other files
