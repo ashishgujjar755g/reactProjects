@@ -34,6 +34,7 @@ const navItems = [
     slug: "/add-post",
     active: authStatus,
   },
+
 ];
 
    return (

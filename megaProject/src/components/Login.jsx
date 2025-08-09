@@ -67,6 +67,7 @@ function Login() {
               })}
             />
             <Input
+            
               label="Password: "
               placeholder="Enter your password"
               type="password"
@@ -81,7 +82,7 @@ function Login() {
               })}
             />
             <Button type="submit" 
-            className="w-full">Sign In</Button>
+            className="w-full mt-4 cursor-pointer">Sign In</Button>
           </div>
         </form>
       </div>

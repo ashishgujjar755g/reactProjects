@@ -10,7 +10,7 @@ function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [error, setError] = useState("");
-  const { register, handleSubmit } = useForm;
+  const { register, handleSubmit } = useForm();
 
   const create = async (data) => {
     setError("");
@@ -82,7 +82,7 @@ function SignUp() {
                 },
               })}
             />
-            <Button type="submit" className="w-full mt-4">
+            <Button type="submit" className="w-full mt-4 cursor-pointer">
               Create Account
             </Button>
           </div>
