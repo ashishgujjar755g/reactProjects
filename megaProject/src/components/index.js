@@ -10,5 +10,6 @@ import PostCard from "./PostCard";
 import Login from "./Login";
 import AuthLayout from "./AuthLayout";
 import SignUp from "./SignUp";
+import RTE from "./RTE";
 
-export { Header, Footer ,Logo,Container,LogoutBtn ,Button,Input,Select,PostCard,Login,AuthLayout,SignUp};
+export { Header, Footer ,Logo,Container,LogoutBtn ,Button,Input,Select,PostCard,Login,AuthLayout,SignUp,RTE};

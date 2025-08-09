@@ -26,10 +26,10 @@ React.useEffect(() => {
             navigate("/");
     }
     setLoader(false);
-}, [authStatus],navigate,authentication);
+}, [authStatus,navigate,authentication]);
 
   return(
-     loading ? (
+     loader ? (
         <div className="flex items-center justify-center w-full h-screen">
           <div className="w-10 h-10 border-4 border-dashed rounded-full animate-spin border-primary"></div>
         </div>
