@@ -1,80 +1,80 @@
-import React, {  useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input, Select } from "../index";
+import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function PostForm({ post }) {
-  const navigate = useNavigate();
+export default function PostForm({ post }) {
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
       defaultValues: {
         title: post?.title || "",
+        slug: post?.$id || "",
         content: post?.content || "",
-        slug: post?.slug || "",
-        status: post?.status || "",
+        status: post?.status || "active",
       },
     });
-  const userData = useSelector((state) => state.user.userData);
+
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state.auth.userData);
 
   const submit = async (data) => {
     if (post) {
-      data.image[0] ? Service.uploadFile(data.image[0]) : null;
+      const file = data.image[0]
+        ? await appwriteService.uploadFile(data.image[0])
+        : null;
+
       if (file) {
-        Service.deleteFile(post.featureImage);
+        appwriteService.deleteFile(post.featureImage);
       }
-      const dbPost = await Service.updatePost(post.$id, {
+
+      const dbPost = await appwriteService.updatePost(post.$id, {
         ...data,
         featureImage: file ? file.$id : undefined,
       });
+
       if (dbPost) {
         navigate(`/post/${dbPost.$id}`);
-      } else {
-        const file = (await data.image[0])
-          ? Service.uploadFile(data.image[0])
-          : null;
+      }
+    } else {
+      const file = await appwriteService.uploadFile(data.image[0]);
 
-        if (file) {
-          const fileId = file.$id;
-          data.featureImage = fileId;
-          const dbPost = await Service.createPost({
-            ...data,
-            userId: userData.$id,
-          });
-          if (dbPost) {
-            navigate(`/post/${dbPost.$id}`);
-          }
+      if (file) {
+        const fileId = file.$id;
+        data.featureImage = fileId;
+        const dbPost = await appwriteService.createPost({
+          ...data,
+          userId: userData.$id,
+        });
+
+        if (dbPost) {
+          navigate(`/post/${dbPost.$id}`);
         }
       }
     }
   };
 
-  const slugTransform = useCallback((value)=>{
-      if(value && typeof value === 'string'){
-            return value.trim()
-            .toLowerCase()
-            .replace(/^[a-zA-Z\d\s]+/g,'-')
-            .replace(/\s/g,'-')
+  const slugTransform = useCallback((value) => {
+    if (value && typeof value === "string")
+      return value
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-zA-Z\d\s]+/g, "-")
+        .replace(/\s/g, "-");
 
-        
+    return "";
+  }, []);
+
+  React.useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (name === "title") {
+        setValue("slug", slugTransform(value.title), { shouldValidate: true });
       }
-  },[])
+    });
 
-  useEffect(()=>{
-const subscription = watch((value,{name})=>{
-      if(name === "title"){
-        const slug = slugTransform(value.title);
-        setValue("slug", slug,{shouldValidate:true});
-      }
-})
-
-return ()=> {
-      subscription.unsubscribe()
-
-}
-
-  },[watch,slugTransform,setValue])
+    return () => subscription.unsubscribe();
+  }, [watch, slugTransform, setValue]);
 
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
@@ -114,10 +114,12 @@ return ()=> {
         {post && (
           <div className="w-full mb-4">
             <img
-              src={appwriteService.getFilePreview(post.featuredImage)}
+              src={appwriteService.getFilePreview(post.featureImage)}
               alt={post.title}
               className="rounded-lg"
             />
+           
+            
           </div>
         )}
         <Select
@@ -129,7 +131,7 @@ return ()=> {
         <Button
           type="submit"
           bgColor={post ? "bg-green-500" : undefined}
-          className="w-full"
+          className="w-full active:scale-95 duration-200 cursor-pointer"
         >
           {post ? "Update" : "Submit"}
         </Button>
@@ -137,5 +139,3 @@ return ()=> {
     </form>
   );
 }
-
-export default PostForm;

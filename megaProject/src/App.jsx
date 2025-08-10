@@ -9,10 +9,21 @@ function App() {
 
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch()
+  
 
 useEffect(() => {
+
+    // const hasSession = localStorage.getItem("isLoggedIn") === "true";
+    // if (!hasSession) {
+    //   dispatch(logout());
+    //   setLoading(false);
+    //   return;
+    // }
+
+
   authService.getCurrentUser()
   .then((userData)=>{
+    // console.log("User data in App.jsx:", userData);
     if(userData){
       dispatch(login(userData))
     }else {

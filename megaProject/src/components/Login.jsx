@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { login as authLogin } from "../store/authSlice";
+import { login as authLogin} from "../store/authSlice";
 import { Button, Input, Logo } from "../components";
 import { useDispatch } from "react-redux";
 import authService from "../appwrite/auth";
@@ -10,22 +10,26 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
-  const Login = async (data) => {
-      console.log(data);
-      
-    setError(null);
+  const login = async (data) => {
+      // console.log("login called",data);
+      // await authService.logout();
+    setError("");
     try {
       const session = await authService.login(data);
+      // console.log("Session result:",session);
       if (session) {
         const userData = await authService.getCurrentUser();
+        // console.log("User data:", userData);
+         // Check if userData is not null or undefined
         if (userData) {
           dispatch(authLogin(userData));
           navigate("/");
         }
       }
     } catch (error) {
+      // console.error("Login error:", error);
       setError(error.message);
     }
   };
@@ -49,40 +53,32 @@ function Login() {
             Sign Up
           </Link>
         </p>
-        {error && <p className="text-red-600 mt-8 text-center"></p>}
-        <form onSubmit={handleSubmit(Login)} className="mt-8">
+        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        <form onSubmit={handleSubmit(login)} className="mt-8">
           <div>
-            <Input
-              label="Email: "
-              placeholder="Enter your email"
-              type="email"
-              {...register("email", {
-                required: true,
-                validate: {
-                  matchPattern: (value) =>
-                    /[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})/.test(
-                      value
-                    ) || "Email address must be a valid",
-                },
-              })}
-            />
-            <Input
-            
-              label="Password: "
-              placeholder="Enter your password"
-              type="password"
-              {...register("password", {
-                required: true,
-                validate: {
-                  matchPattern: (value) =>
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(
-                      value
-                    ) || "Password must be a valid",
-                },
-              })}
-            />
+           <Input
+                         label="Email: "
+                         placeholder="Enter your email"
+                         type="email"
+                         {...register("email", {
+                           required: true,
+                           validate: {
+                             matchPatern: (value) =>
+                               /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                               "Email address must be a valid address",
+                           },
+                         })}
+                       />
+                       <Input
+                         label="Password: "
+                         type="password"
+                         placeholder="Enter your password"
+                         {...register("password", {
+                           required: true,
+                         })}
+                       />
             <Button type="submit" 
-            className="w-full mt-4 cursor-pointer">Sign In</Button>
+            className="w-full mt-4 cursor-pointer active:scale-95 duration-190">Sign In</Button>
           </div>
         </form>
       </div>

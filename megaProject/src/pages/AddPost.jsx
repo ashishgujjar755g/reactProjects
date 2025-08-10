@@ -4,7 +4,7 @@ import { Container , PostForm } from '../components'
 function AddPost() {
   return (
     <Container>
-      <PostForm />
+      <PostForm  />
     </Container>
   )
 }
