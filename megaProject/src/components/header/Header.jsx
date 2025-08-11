@@ -34,7 +34,11 @@ const navItems = [
     slug: "/add-post",
     active: authStatus,
   },
-
+  {
+    name: "My Post",
+    slug: "/my-posts",
+    active: authStatus,
+  },
 ];
 
    return (

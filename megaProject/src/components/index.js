@@ -12,5 +12,6 @@ import AuthLayout from "./AuthLayout";
 import SignUp from "./SignUp";
 import RTE from "./RTE";
 import PostForm from "./PostForm/PostForm";
+import MyPosts from "./MyPosts";
 
-export { Header, Footer ,Logo,Container,LogoutBtn ,Button,Input,Select,PostCard,Login,AuthLayout,SignUp,RTE,PostForm};
+export { Header, Footer ,Logo,Container,LogoutBtn ,Button,Input,Select,PostCard,Login,AuthLayout,SignUp,RTE,PostForm,MyPosts};

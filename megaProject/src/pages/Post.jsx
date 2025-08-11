@@ -35,18 +35,18 @@ export default function Post() {
 
   return post ? (
     <div className="py-8">
-      <Container>
-        <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
+      <Container >
+        <div className="w-full flex justify-center mb-4 relative   rounded-xl p-2">
           <img
-            src={appwriteService.getFilePreview(post.featureImage) 
-              
+            src={appwriteService.getFilePreview(post.featureImage) }
+              className="w-50% h-50 bg-cover rounded-xl"
 
-            }
+            
             
             alt={post.title}
-            className="rounded-xl"
+            
           />
-          {console.log("Post image URL:", typeof appwriteService.getFilePreview(post.featureImage))};
+          {/* {console.log("Post image URL:", typeof appwriteService.getFilePreview(post.featureImage))}; */}
           
 
           {isAuthor && (
@@ -62,10 +62,10 @@ export default function Post() {
             </div>
           )}
         </div>
-        <div className="w-full mb-6">
+        <div className="w-full mb-6 ">
           <h1 className="text-2xl font-bold">{post.title}</h1>
         </div>
-        <div className="browser-css">{parse(post.content)}</div>
+        <div className="browser-css ">{parse(post.content)}</div>
       </Container>
     </div>
   ) : null;

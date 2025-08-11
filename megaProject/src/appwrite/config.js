@@ -117,13 +117,12 @@ export class Service {
 
   //make service for getFilePreview
   getFilePreview(fileId) {
-    return this.bucket.getFilePreview(
-      conf.appwriteBucketId,
-      fileId,
-  
-    );
-  }
+   
+  return `${conf.appwriteUrl}/storage/buckets/${conf.appwriteBucketId}/files/${fileId}/view?project=${conf.appwriteProjectId}`}
 }
+
+  
+
 
 const service = new Service(); //this object or instace is crated for Service class and we will use the class methods using dot operator
 export default service; //exporting the object so that we can use it in other files
